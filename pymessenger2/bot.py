@@ -64,7 +64,11 @@ class Bot(object):
                        recipient_id,
                        payload,
                        notification_type=NotificationType.regular):
-        payload['recipient'] = {'id': recipient_id}
+        if recipient_id.startswith('t_'):
+            _key = 'thread_key'
+        else:
+            _key = 'id'
+        payload['recipient'] = {_key : recipient_id}
         payload['notification_type'] = notification_type.value
         return self.send_raw(payload)
 
